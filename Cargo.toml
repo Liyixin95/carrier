@@ -1,0 +1,13 @@
+[package]
+name = "carrier"
+version = "0.1.0"
+authors = ["Liyixin <601947961@qq.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+rand="0.3.17"
+mio={version="0.7.5",features = ["os-poll", "tcp"]}
+structopt = "0.3"
+num_cpus = "1"
