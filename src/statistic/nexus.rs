@@ -9,7 +9,7 @@ pub struct Nexus<T> where T: FnOnce(Record) {
     handle: T,
 }
 
-impl<T> Nexus<T> {
+impl<T> Nexus<T> where T: FnOnce(Record) {
     pub fn new(handle: T) -> Self {
         let (tx,rx) = mpsc::channel();
         Self {rx,tx, handle}
