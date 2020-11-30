@@ -1,19 +1,16 @@
-use std::sync::mpsc::Sender;
 use crate::statistic::record::Record;
+use std::sync::mpsc::Sender;
 
 pub struct Probe {
-    tx: Sender<Record>
+    tx: Sender<Record>,
 }
 
 impl Probe {
     pub fn new(tx: Sender<Record>) -> Self {
-        Self {
-            tx
-        }
+        Self { tx }
     }
 
     pub fn push(&mut self, data: u32) {
-        self.tx.send(Record{});
+        self.tx.send(Record {});
     }
-
 }

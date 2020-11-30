@@ -1,24 +1,22 @@
-use std::collections::HashMap;
-use mio::{Token, Events, Interest};
-use mio::net::TcpStream;
-use std::time::Duration;
-use std::{mem, io};
 use mio::event::Event;
+use mio::net::TcpStream;
+use mio::{Events, Interest, Token};
+use std::collections::HashMap;
+use std::time::Duration;
+use std::{io, mem};
 
 pub struct Worker {
     poll: mio::Poll,
     marker: usize,
     statistic: Vec<u32>,
-    time:u64,
+    time: u64,
     tasks: (),
 }
 
 const POLL_INTERVAL: u64 = 1;
 
 impl Worker {
-    pub fn new() {
-
-    }
+    pub fn new() {}
 
     pub fn next_token(&mut self) -> Token {
         let token = self.marker;
@@ -38,10 +36,11 @@ impl Worker {
         mem::swap(&mut self.statistic, vec);
     }
 
-    fn run(&mut self, connections: &mut HashMap<Token, TcpStream>) -> io::Result<()>{
+    fn run(&mut self, connections: &mut HashMap<Token, TcpStream>) -> io::Result<()> {
         let mut events = Events::with_capacity(128);
         loop {
-            self.poll.poll(&mut events, Some(Duration::from_micros(POLL_INTERVAL)))?;
+            self.poll
+                .poll(&mut events, Some(Duration::from_micros(POLL_INTERVAL)))?;
             self.time += POLL_INTERVAL;
 
             for event in events.iter() {
@@ -49,25 +48,16 @@ impl Worker {
                 if let Some(connection) = connections.get_mut(&token) {
                     self.handle_connection_event(event, connection);
                 }
-
             }
-
         }
     }
 
     #[inline]
     fn handle_connection_event(&self, event: &Event, Connection: &mut TcpStream) {
-        if event.is_readable() {
+        if event.is_readable() {}
 
-        }
-
-        if event.is_error() {
-
-        }
+        if event.is_error() {}
     }
 
-    fn handle_tasks(&mut self) {
-
-    }
-
+    fn handle_tasks(&mut self) {}
 }

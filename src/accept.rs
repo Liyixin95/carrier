@@ -1,20 +1,19 @@
-use mio::{Events, Token};
-use std::io;
-use std::collections::HashMap;
-use mio::net::{TcpListener, TcpStream};
-use std::net::SocketAddr;
-use std::io::Error;
 use crate::worker::Worker;
-
+use mio::net::{TcpListener, TcpStream};
+use mio::{Events, Token};
+use std::collections::HashMap;
+use std::io;
+use std::io::Error;
+use std::net::SocketAddr;
 
 pub struct Accept {
     poll: mio::Poll,
     listeners: HashMap<Token, TcpListener>,
-    wrks: [Worker]
+    wrks: [Worker],
 }
 
 impl Accept {
-    pub fn run(&mut self) -> io::Result<()>{
+    pub fn run(&mut self) -> io::Result<()> {
         let mut events = Events::with_capacity(128);
         loop {
             self.poll.poll(&mut events, None)?;

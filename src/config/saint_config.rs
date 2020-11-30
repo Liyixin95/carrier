@@ -1,6 +1,6 @@
-use std::time::Duration;
-use std::net::SocketAddr;
 use std::fs::File;
+use std::net::SocketAddr;
+use std::time::Duration;
 
 pub struct Config {
     pub parallelism: u32,
@@ -19,4 +19,3 @@ pub struct Config {
 
     pub command_file: File,
 }
-

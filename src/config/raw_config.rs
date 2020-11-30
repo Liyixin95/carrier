@@ -1,8 +1,8 @@
-use std::path::PathBuf;
-use structopt::StructOpt;
 use crate::config::saint_config::Config;
-use std::time::Duration;
 use std::fs::File;
+use std::path::PathBuf;
+use std::time::Duration;
+use structopt::StructOpt;
 
 #[derive(Debug, StructOpt)]
 #[structopt(name = "test", about = "about test")]
@@ -47,7 +47,7 @@ impl Into<Result<Config, String>> for RawConfig {
             interval: self.interval,
             duration,
             host: self.host.parse().unwrap(),
-            command_file: File::open(self.command_file).unwrap()
+            command_file: File::open(self.command_file).unwrap(),
         })
     }
 }
@@ -58,18 +58,21 @@ fn into_duration(raw_str: String) -> Result<Duration, String> {
     let mut index: usize = 0;
     for c in chars {
         if not_number(c) {
-            break
+            break;
         }
         index = index + 1;
     }
 
     if index == 0 {
-        return Err("input string must start with number".to_string())
+        return Err("input string must start with number".to_string());
     }
 
     let second: u64;
     unsafe {
-        let number = raw_str.get_unchecked(0..index).parse::<u32>().map_err(|err| "parse number error".to_string())?;
+        let number = raw_str
+            .get_unchecked(0..index)
+            .parse::<u32>()
+            .map_err(|err| "parse number error".to_string())?;
         let unit = raw_str.get_unchecked(index..);
         if unit.len() != 1 {
             return Err(format!("error unit : {}", unit));
@@ -95,7 +98,7 @@ fn parse_unit(c: char) -> Result<u32, String> {
         Ok(3600)
     } else {
         Err(format!("no such unit: {}", c))
-    }
+    };
 }
 
 #[cfg(test)]
@@ -104,14 +107,26 @@ mod tests {
 
     #[test]
     fn duration_basics() {
-        assert_eq!(into_duration("12m".to_string()).unwrap(), Duration::from_secs(12 * 60));
-        assert_eq!(into_duration("12s".to_string()).unwrap(), Duration::from_secs(12));
-        assert_eq!(into_duration("12h".to_string()).unwrap(), Duration::from_secs(12 * 60 * 60));
+        assert_eq!(
+            into_duration("12m".to_string()).unwrap(),
+            Duration::from_secs(12 * 60)
+        );
+        assert_eq!(
+            into_duration("12s".to_string()).unwrap(),
+            Duration::from_secs(12)
+        );
+        assert_eq!(
+            into_duration("12h".to_string()).unwrap(),
+            Duration::from_secs(12 * 60 * 60)
+        );
     }
 
     #[test]
     fn duration_error() {
-        assert_eq!(into_duration("m".to_string()), Err("input string must start with number".to_string()));
+        assert_eq!(
+            into_duration("m".to_string()),
+            Err("input string must start with number".to_string())
+        );
         assert!(into_duration("m11".to_string()).is_err());
         assert!(into_duration("".to_string()).is_err());
         assert!(into_duration(" ".to_string()).is_err());

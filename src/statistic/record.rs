@@ -1,3 +1,1 @@
-pub struct Record {
-
-}
+pub struct Record {}
