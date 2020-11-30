@@ -1,8 +1,9 @@
 use crate::statistic::probe::Probe;
 use crate::statistic::record::Record;
 use std::sync::mpsc;
-use std::sync::mpsc::{Receiver, RecvTimeoutError, Sender, TryRecvError};
+use std::sync::mpsc::{Receiver, Sender};
 use std::time::Duration;
+use crate::statistic::bundle::Bundle;
 
 pub struct Nexus<T>
 where
@@ -10,7 +11,7 @@ where
 {
     rx: Receiver<Record>,
     tx: Sender<Record>,
-    buffer: Vec<Record>,
+    bundle: Bundle,
     cur_time: u64,
     handle: T,
 }
@@ -24,7 +25,7 @@ where
         Self {
             rx,
             tx,
-            buffer: Vec::with_capacity(1024),
+            bundle: Bundle::new(1024),
             cur_time: 0,
             handle,
         }
@@ -33,13 +34,15 @@ where
         Probe::new(self.tx.clone())
     }
 
-    pub fn set_handle() {}
-
-    fn collect_loop(&self) {
+    fn collect_loop(&mut self) {
         loop {
             while let Some(record) = self.rx.try_recv() {
-
+                self.bundle.push(record);
             }
+
+
+
+            self.bundle.reset();
 
             std::thread::sleep(Duration::from_millis(500))
         }
