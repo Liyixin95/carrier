@@ -36,7 +36,7 @@ where
 
     fn collect_loop(&mut self) {
         loop {
-            while let Some(record) = self.rx.try_recv() {
+            while let Ok(record) = self.rx.try_recv() {
                 self.bundle.push(record);
             }
 

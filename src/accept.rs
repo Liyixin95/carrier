@@ -1,4 +1,4 @@
-use crate::worker::Worker;
+use crate::engine::worker::Worker;
 use mio::net::{TcpListener, TcpStream};
 use mio::{Events, Token};
 use std::collections::HashMap;

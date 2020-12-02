@@ -1,2 +1,2 @@
 mod formatter;
-mod model;
+mod view;

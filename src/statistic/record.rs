@@ -1,29 +1,35 @@
 use std::ops::Add;
 use std::cmp::Ordering;
 
+#[derive(Debug)]
 pub struct Record {
     success: bool,
-    latency: u64,
+    latency: u32,
 }
 
 impl Record {
-    pub fn success(latency: u64) -> Self {
+    pub fn success(latency: u32) -> Self {
         Self {
             success: true,
             latency
         }
     }
 
-    pub fn failure(latency: u64) -> Self {
+    pub fn failure(latency: u32) -> Self {
         Self {
             success: false,
             latency
         }
     }
+
+    pub fn copy(&mut self, record: Record) {
+        self.success = record.success;
+        self.latency = record.latency;
+    }
 }
 
 impl Add for Record {
-    type Output = u64;
+    type Output = u32;
 
     fn add(self, rhs: Self) -> Self::Output {
         self.latency  + rhs.latency

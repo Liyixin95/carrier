@@ -11,6 +11,6 @@ impl Probe {
     }
 
     pub fn push(&mut self, data: u32) {
-        self.tx.send(Record {});
+        self.tx.send(Record::success(data));
     }
 }
