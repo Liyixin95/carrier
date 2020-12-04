@@ -29,12 +29,17 @@ impl Bundle {
     }
 
     pub fn sort(&mut self, until: u8) {
-        if until > self.index as u8 {
-        }
+        //TODO 优化为部分排序
+        self.container.sort()
     }
 
     pub fn count(&self) -> u64 {
         self.index as u64
+    }
+
+    pub fn get_percent_unchecked(&self, percent: u8) -> &Record {
+        let index = self.index * (percent / 100);
+        &self.container[index]
     }
 }
 

@@ -1,7 +1,7 @@
 use std::ops::Add;
 use std::cmp::Ordering;
 
-#[derive(Debug)]
+#[derive(Debug, Eq)]
 pub struct Record {
     success: bool,
     latency: u32,
@@ -45,5 +45,11 @@ impl PartialEq for Record {
 impl PartialOrd for Record {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
         Some(self.latency.cmp(&other.latency))
+    }
+}
+
+impl Ord for Record {
+    fn cmp(&self, other: &Self) -> Ordering {
+        self.latency.cmp(&other.latency)
     }
 }
